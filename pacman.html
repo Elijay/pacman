@@ -6,20 +6,17 @@
     </title>
   </head>
   <body>
-<h1 id="heading">Pacman</h1>
+    <h1 id="heading">Pacman</h1>
 
     <div id="wrapper">
       <canvas id="canvas" width="300" height="200" class="front"></canvas>
       <canvas id="msg" width="300" height="200"></canvas>
     </div>
-    <script>
-      var PACMAN = {
-        Components:{}
-    };
-    </script>
+    <script src="scripts/global.js"></script>
     <script src="scripts/components/appearance.js"></script>
     <script src="scripts/components/position.js"></script>
     <script src="scripts/entity.js"></script>
+    <script src="scripts/systems/render.js"></script>
     <script src="scripts/init.js"></script>
   </body>
 </html>

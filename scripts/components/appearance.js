@@ -28,5 +28,3 @@ PACMAN.Components.Appearance.prototype = {
   name: 'appearance'
 
 }
-
-//pac.Components.Appearance.prototype.name = 'appearance';
