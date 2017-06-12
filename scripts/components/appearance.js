@@ -3,28 +3,28 @@
 * Defines size and color
 */
 
-PACMAN.Components.Appearance = function Appearance ( params ){
+PACMAN.comps.Appearance = function Appearance ( params ){
 
   params = params || {};
 
   this.colors = params.colors;
   if(!this.colors){
     this.colors = {
-      r: 0,
-      g: 100,
-      b: 150
+      r: 213,
+      g: 255,
+      b: 12
     };
   }
 
-  this.size = params.size || 20;
+  this.size = params.size || 5;
 
   return this;
 
 };
 
-PACMAN.Components.Appearance.prototype = {
+PACMAN.comps.Appearance.prototype = {
 
-  constructor: PACMAN.Components.Appearance,
+  constructor: PACMAN.comps.Appearance,
   name: 'appearance'
 
 }

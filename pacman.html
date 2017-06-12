@@ -9,14 +9,21 @@
     <h1 id="heading">Pacman</h1>
 
     <div id="wrapper">
-      <canvas id="canvas" width="300" height="200" class="front"></canvas>
-      <canvas id="msg" width="300" height="200"></canvas>
+      <canvas id="canvas" width="400" height="400" class="front"></canvas>
+      <canvas id="grid" width="400" height="400" class="grid"></canvas>
+      <canvas id="msg" width="400" height="400"></canvas>
     </div>
     <script src="scripts/global.js"></script>
+    <script src="scripts/debug.js"></script>
     <script src="scripts/components/appearance.js"></script>
     <script src="scripts/components/position.js"></script>
-    <script src="scripts/entity.js"></script>
+    <script src="scripts/components/usercontrolled.js"></script>
+    <script src="scripts/components/velocity.js"></script>
+    <script src="scripts/entities/entity.js"></script>
+    <script src="scripts/assemblages.js"></script>
+    <script src="scripts/systems/physics.js"></script>
     <script src="scripts/systems/render.js"></script>
+    <script src="scripts/systems/userinput.js"></script>
     <script src="scripts/init.js"></script>
   </body>
 </html>

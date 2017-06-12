@@ -1,7 +1,7 @@
 //global and namespaced variable
 
 var PACMAN = {
-  Components:{},
+  comps:{},
   systems:{},
   entities:{}
 };

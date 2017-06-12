@@ -1,9 +1,9 @@
 /*
 * Position component
-* Defines position as percentage of canvas width and height
+* Defines position as x and y on canvas
 */
 
-PACMAN.Components.Position = function Position ( params ){
+PACMAN.comps.Position = function Position ( params ){
 
   params = params || {};
 
@@ -13,9 +13,9 @@ PACMAN.Components.Position = function Position ( params ){
   return this;
 };
 
-PACMAN.Components.Position.prototype = {
+PACMAN.comps.Position.prototype = {
 
-  constructor: PACMAN.Components.Position,
+  constructor: PACMAN.comps.Position,
   name: 'position'
 
 }

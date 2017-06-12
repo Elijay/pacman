@@ -4,6 +4,10 @@
 
 PACMAN.systems.render = function systemsRender ( entities ){
 
+  //clear the current main canvas
+
+  PACMAN.context.clearRect(0, 0, 400, 400);
+
   // get all entities with an appearance and position components
 
   for(var entityId in entities){
