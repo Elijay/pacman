@@ -70,7 +70,7 @@ document.addEventListener("keydown", keyPressed, false);
 createDebugGrid();
 
 var numLoops = 0;
-var fps = 60;
+var fps = 30;
 var timeStep = 1000 / fps;
 var prevTime = 0;
 

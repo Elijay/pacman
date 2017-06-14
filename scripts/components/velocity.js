@@ -9,6 +9,8 @@ PACMAN.comps.Velocity = function Velocity ( params ){
 
   this.x = params.x || 0;
   this.y = params.y || 0;
+  this.targetx = params.x || 10;
+  this.targety = params.y || 10;
 
   return this;
 };
