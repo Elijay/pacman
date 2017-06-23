@@ -3,7 +3,8 @@
 var PACMAN = {
   comps:{},
   systems:{},
-  entities:{}
+  entities:{},
+  map:{}
 };
 
 PACMAN.context = document.getElementById("canvas").getContext("2d");
