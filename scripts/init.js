@@ -8,6 +8,87 @@ var systems = [
   ],
   mrpacman = new PACMAN.Entity();
 
+PACMAN.map = {
+  cols:21,
+  rows:27,
+  tileSize:20,
+  tiles:[1,2,2,2,2,2,2,2,2,2,7,2,2,2,2,2,2,2,2,2,3,
+         10,0,0,0,0,0,0,0,0,0,10,0,0,0,0,0,0,0,0,0,10,
+         10,0,1,2,3,0,1,2,3,0,10,0,1,2,3,0,1,2,3,0,10,
+         10,0,10,0,10,0,10,0,10,0,10,0,10,0,10,0,10,0,10,0,10,
+         10,0,4,2,5,0,4,2,5,0,14,0,4,2,5,0,4,2,5,0,10,
+         10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,10,
+         10,0,1,2,3,0,13,0,1,2,2,2,3,0,13,0,1,2,3,0,10,
+         10,0,4,2,5,0,10,0,4,2,7,2,5,0,10,0,4,2,5,0,10,
+         10,0,0,0,0,0,10,0,0,0,10,0,0,0,10,0,0,0,0,0,10,
+         4,2,2,2,3,0,8,2,11,0,14,0,12,2,6,0,1,2,2,2,5,
+         0,0,0,0,10,0,10,0,0,0,0,0,0,0,10,0,10,0,0,0,0,
+         0,0,0,0,10,0,10,0,1,16,15,17,3,0,10,0,10,0,0,0,0,
+         12,2,2,2,5,0,14,0,10,0,0,0,10,0,14,0,4,2,2,2,11,
+         0,0,0,0,0,0,0,0,10,0,0,0,10,0,0,0,0,0,0,0,0,
+         12,2,2,2,3,0,13,0,4,2,2,2,5,0,13,0,1,2,2,2,11,
+         0,0,0,0,10,0,10,0,0,0,0,0,0,0,10,0,10,0,0,0,0,
+         0,0,0,0,10,0,10,0,1,2,2,2,3,0,10,0,10,0,0,0,0,
+         1,2,2,2,5,0,14,0,4,2,7,2,5,0,14,0,4,2,2,2,3,
+         10,0,0,0,0,0,0,0,0,0,10,0,0,0,0,0,0,0,0,0,10,
+         10,0,12,2,3,0,12,2,11,0,14,0,12,2,11,0,1,2,11,0,10,
+         10,0,0,0,10,0,0,0,0,0,0,0,0,0,0,0,10,0,0,0,10,
+         8,2,3,0,10,0,13,0,1,2,2,2,3,0,13,0,10,0,1,2,6,
+         8,2,5,0,14,0,10,0,4,2,7,2,5,0,10,0,14,0,4,2,6,
+         10,0,0,0,0,0,10,0,0,0,10,0,0,0,10,0,0,0,0,0,10,
+         10,0,12,2,2,2,9,2,11,0,14,0,12,2,9,2,2,2,11,0,10,
+         10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,10,
+         4,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,5],
+  getTile: function(col,row){
+    return this.tiles[row * PACMAN.map.cols + col];
+  }
+
+};
+
+var drawTile = function(tile, atlas, x, y){
+  var gridcontext = document.getElementById("msg").getContext("2d");
+
+  gridcontext.drawImage(
+    atlas,
+    (tile - 1) * PACMAN.map.tileSize,
+    0,
+    PACMAN.map.tileSize,
+    PACMAN.map.tileSize,
+    x,
+    y,
+    PACMAN.map.tileSize,
+    PACMAN.map.tileSize
+  );
+};
+
+var renderMap = function(){
+
+    var img = new Image();
+    img.src = "pacman-sprite.png";
+
+    img.onload = function(){
+
+      for (var col = 0; col < PACMAN.map.cols; col++){
+
+        for (var row = 0; row < PACMAN.map.rows; row++){
+
+          var tile = PACMAN.map.getTile(col, row);
+          var x = col * PACMAN.map.tileSize;
+          var y = row * PACMAN.map.tileSize;
+
+          if (tile !== 0){
+
+            drawTile(tile, img, x, y);
+
+          }
+        }
+
+      }
+
+    }
+
+};
+
 var getRandomNumber = function(min,max){
   var min = Math.ceil(min);
   var max = Math.floor(max);
@@ -99,6 +180,7 @@ function gameLoop(timestamp) {
 }
 
 //start the game
+renderMap();
 requestAnimationFrame(gameLoop);
 
 })();
