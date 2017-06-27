@@ -11,7 +11,10 @@ PACMAN.systems.userInput = function systemsUserInput(input, entities){
     var currentEntity = entities[entityId];
     if ( currentEntity.components.usercontrolled){
 
-      //if entity is usercontrolled get the key input mapping
+      currentEntity.components.usercontrolled.lastKey = input;
+
+      //get the key input mapping
+      /*
       var map = currentEntity.components.usercontrolled.keyMap;
 
       for(var propertyName in map){
@@ -19,7 +22,8 @@ PACMAN.systems.userInput = function systemsUserInput(input, entities){
 
           if (input == map[propertyName]){
               //key pressed corresponds to a user input for this component
-              console.log(propertyName);
+              //console.log(propertyName);
+
               //make a change to the velocity
               if (propertyName == "up"){
                 currentEntity.components.velocity.x = 0;
@@ -35,14 +39,14 @@ PACMAN.systems.userInput = function systemsUserInput(input, entities){
                 currentEntity.components.velocity.y = 0;
               }
 
-              console.log('x velocity is' + currentEntity.components.velocity.x);
-              console.log('y velocity is' + currentEntity.components.velocity.y);
+              //console.log('x velocity is' + currentEntity.components.velocity.x);
+              //console.log('y velocity is' + currentEntity.components.velocity.y);
           }
 
         }
 
       }
-
+*/
     }
 
   }

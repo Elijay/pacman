@@ -8,63 +8,25 @@ var systems = [
   ],
   mrpacman = new PACMAN.Entity();
 
-PACMAN.map = {
-  cols:21,
-  rows:27,
-  tileSize:20,
-  tiles:[1,2,2,2,2,2,2,2,2,2,7,2,2,2,2,2,2,2,2,2,3,
-         10,0,0,0,0,0,0,0,0,0,10,0,0,0,0,0,0,0,0,0,10,
-         10,0,1,2,3,0,1,2,3,0,10,0,1,2,3,0,1,2,3,0,10,
-         10,0,10,0,10,0,10,0,10,0,10,0,10,0,10,0,10,0,10,0,10,
-         10,0,4,2,5,0,4,2,5,0,14,0,4,2,5,0,4,2,5,0,10,
-         10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,10,
-         10,0,1,2,3,0,13,0,1,2,2,2,3,0,13,0,1,2,3,0,10,
-         10,0,4,2,5,0,10,0,4,2,7,2,5,0,10,0,4,2,5,0,10,
-         10,0,0,0,0,0,10,0,0,0,10,0,0,0,10,0,0,0,0,0,10,
-         4,2,2,2,3,0,8,2,11,0,14,0,12,2,6,0,1,2,2,2,5,
-         0,0,0,0,10,0,10,0,0,0,0,0,0,0,10,0,10,0,0,0,0,
-         0,0,0,0,10,0,10,0,1,16,15,17,3,0,10,0,10,0,0,0,0,
-         12,2,2,2,5,0,14,0,10,0,0,0,10,0,14,0,4,2,2,2,11,
-         0,0,0,0,0,0,0,0,10,0,0,0,10,0,0,0,0,0,0,0,0,
-         12,2,2,2,3,0,13,0,4,2,2,2,5,0,13,0,1,2,2,2,11,
-         0,0,0,0,10,0,10,0,0,0,0,0,0,0,10,0,10,0,0,0,0,
-         0,0,0,0,10,0,10,0,1,2,2,2,3,0,10,0,10,0,0,0,0,
-         1,2,2,2,5,0,14,0,4,2,7,2,5,0,14,0,4,2,2,2,3,
-         10,0,0,0,0,0,0,0,0,0,10,0,0,0,0,0,0,0,0,0,10,
-         10,0,12,2,3,0,12,2,11,0,14,0,12,2,11,0,1,2,11,0,10,
-         10,0,0,0,10,0,0,0,0,0,0,0,0,0,0,0,10,0,0,0,10,
-         8,2,3,0,10,0,13,0,1,2,2,2,3,0,13,0,10,0,1,2,6,
-         8,2,5,0,14,0,10,0,4,2,7,2,5,0,10,0,14,0,4,2,6,
-         10,0,0,0,0,0,10,0,0,0,10,0,0,0,10,0,0,0,0,0,10,
-         10,0,12,2,2,2,9,2,11,0,14,0,12,2,9,2,2,2,11,0,10,
-         10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,10,
-         4,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,5],
-  getTile: function(col,row){
-    return this.tiles[row * PACMAN.map.cols + col];
-  }
+  var drawTile = function(tile, atlas, x, y){
 
-};
-
-var drawTile = function(tile, atlas, x, y){
-  var gridcontext = document.getElementById("msg").getContext("2d");
-
-  gridcontext.drawImage(
-    atlas,
-    (tile - 1) * PACMAN.map.tileSize,
-    0,
-    PACMAN.map.tileSize,
-    PACMAN.map.tileSize,
-    x,
-    y,
-    PACMAN.map.tileSize,
-    PACMAN.map.tileSize
-  );
-};
+    PACMAN.bgContext.drawImage(
+      atlas,
+      (tile - 1) * PACMAN.map.tileSize,
+      0,
+      PACMAN.map.tileSize,
+      PACMAN.map.tileSize,
+      x,
+      y,
+      PACMAN.map.tileSize,
+      PACMAN.map.tileSize
+    );
+  };
 
 var renderMap = function(){
 
     var img = new Image();
-    img.src = "pacman-sprite.png";
+    img.src = PACMAN.map.atlas;
 
     img.onload = function(){
 
@@ -80,12 +42,31 @@ var renderMap = function(){
 
             drawTile(tile, img, x, y);
 
+          } else{
+
+            //drawing pill - needs to be centred
+            x = x + PACMAN.map.tileSize / 2;
+            y = y + PACMAN.map.tileSize / 2;
+
+            drawTreat(x, y);
+
           }
+
         }
 
       }
 
     }
+
+};
+
+var drawTreat = function(x, y){
+
+  var pill = new PACMAN.Assemblages.RenderedCircle();
+  pill.components.position.x = x;
+  pill.components.position.y = y;
+  pill.components.appearance.size = 2;
+  PACMAN.entities[pill.ID] = pill;
 
 };
 
@@ -100,24 +81,6 @@ var keyPressed = function(e){
   PACMAN.systems.userInput(keyD, PACMAN.entities);
 };
 
-/*
-var addPills = function(){
-  //create 20 random pills
-  for(var i = 0; i < 20; i++){
-    var pill = new PACMAN.Assemblages.RenderedCircle();
-
-    //coordinates are two random numbers between 10 and 390 inclusive
-    //for now ignore the fact that there could be two on one space
-
-    pill.components.position.x = getRandomNumber(0, 19) * 20 + 10;
-    pill.components.position.y = getRandomNumber(0, 19) * 20 + 10;
-    pill.listComponents();
-    PACMAN.entities[pill.ID] = pill;
-
-  }
-};
-*/
-
 //activate systems to process all entities
 var runSystems = function(){
   for(var i = 0; i < systems.length; i++){
@@ -129,14 +92,11 @@ var runSystems = function(){
 
 //create pacman
 mrpacman.addComponent( new PACMAN.comps.Appearance({colors:{r:213,g:255,b:12}, size:10}));
-mrpacman.addComponent( new PACMAN.comps.Position({x:10,y:10}));
+mrpacman.addComponent( new PACMAN.comps.Position({x:30,y:30}));
 mrpacman.addComponent( new PACMAN.comps.UserControlled());
 mrpacman.addComponent( new PACMAN.comps.Velocity());
 mrpacman.listComponents();
 PACMAN.entities[mrpacman.ID] = mrpacman;
-
-//add pills at random locations
-//addPills();
 
 //calculate start position and render everything
 runSystems();

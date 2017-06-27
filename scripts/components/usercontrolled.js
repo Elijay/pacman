@@ -20,6 +20,7 @@ PACMAN.comps.UserControlled = function UserControlled( params ){
     down: 40,
     left: 37
   };
+  this.lastKey = 0;
   return this;
 
 };
