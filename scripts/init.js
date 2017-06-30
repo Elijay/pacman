@@ -42,14 +42,6 @@ var renderMap = function(){
 
             drawTile(tile, img, x, y);
 
-          } else{
-
-            //drawing pill - needs to be centred
-            x = x + PACMAN.map.tileSize / 2;
-            y = y + PACMAN.map.tileSize / 2;
-
-            drawTreat(x, y);
-
           }
 
         }
@@ -57,6 +49,30 @@ var renderMap = function(){
       }
 
     }
+
+};
+
+var renderTreats = function(){
+
+  for (var col = 0; col < PACMAN.map.cols; col++){
+
+    for (var row = 0; row < PACMAN.map.rows; row++){
+
+      var tile = PACMAN.map.getLogicTile(col, row);
+
+        if (tile !== 0){
+
+          //drawing pill - needs to be centred
+          x = col * PACMAN.map.tileSize + PACMAN.map.tileSize / 2;
+          y = row * PACMAN.map.tileSize + PACMAN.map.tileSize / 2;
+
+          drawTreat(x, y);
+
+        }
+
+    }
+
+  }
 
 };
 
@@ -141,6 +157,7 @@ function gameLoop(timestamp) {
 
 //start the game
 renderMap();
+renderTreats();
 requestAnimationFrame(gameLoop);
 
 })();
