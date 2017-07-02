@@ -5,7 +5,14 @@
   margin:0 auto;
   padding:0;
   background:black;
-  border:1px solid blue;
+}
+#score{
+  position:relative;
+  width:420px;
+  height:40px;
+  margin:0 auto;
+  padding: 0;
+  background:black;
 }
 canvas{
   position:absolute;

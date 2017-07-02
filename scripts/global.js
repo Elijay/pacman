@@ -3,11 +3,13 @@
 var PACMAN = {
   comps:{},
   systems:{},
-  entities:{}
+  entities:{},
+  score:0
 };
 
 PACMAN.context = document.getElementById("canvas").getContext("2d");
 PACMAN.bgContext = document.getElementById("background").getContext("2d");
+PACMAN.scoreContext = document.getElementById("canvasscore").getContext("2d");
 PACMAN.map = {
   cols:21,
   rows:27,
@@ -76,12 +78,22 @@ PACMAN.map = {
   getTile: function(col,row){
     return this.tiles[row * this.cols + col];
   },
-  getLogicTile: function(col, row){
-    return this.logic[row * this.cols + col];
-  },
   getTileAtPosition : function(x, y){
     var col = Math.floor(x / this.tileSize);
     var row = Math.floor(y / this.tileSize);
     return this.getTile(col, row);
+  },
+  getLogicTile: function(col, row){
+    return this.logic[row * this.cols + col];
+  },
+  getLogicTileAtPosition : function(x, y){
+    var col = Math.floor(x / this.tileSize);
+    var row = Math.floor(y / this.tileSize);
+    return this.getLogicTile(col, row);
+  },
+  updateLogicTile : function(x, y, val){
+    var col = Math.floor(x / this.tileSize);
+    var row = Math.floor(y / this.tileSize);
+    this.logic[row * this.cols + col] = val;
   }
 };

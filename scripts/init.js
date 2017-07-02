@@ -4,6 +4,7 @@
 //the systems array controls the order that the systems are applied
 var systems = [
   PACMAN.systems.physics,
+  PACMAN.systems.collisiondetection,
   PACMAN.systems.render
   ],
   mrpacman = new PACMAN.Entity();
@@ -52,7 +53,7 @@ var renderMap = function(){
 
 };
 
-var renderTreats = function(){
+var setUpTreats = function(){
 
   for (var col = 0; col < PACMAN.map.cols; col++){
 
@@ -66,7 +67,7 @@ var renderTreats = function(){
           x = col * PACMAN.map.tileSize + PACMAN.map.tileSize / 2;
           y = row * PACMAN.map.tileSize + PACMAN.map.tileSize / 2;
 
-          drawTreat(x, y);
+          createTreatEntity(x, y);
 
         }
 
@@ -76,15 +77,17 @@ var renderTreats = function(){
 
 };
 
-var drawTreat = function(x, y){
+var createTreatEntity = function(x, y){
 
   var pill = new PACMAN.Assemblages.RenderedCircle();
   pill.components.position.x = x;
   pill.components.position.y = y;
   pill.components.appearance.size = 2;
+  pill.addComponent( new PACMAN.comps.Edible());
   PACMAN.entities[pill.ID] = pill;
 
 };
+
 
 var getRandomNumber = function(min,max){
   var min = Math.ceil(min);
@@ -124,7 +127,7 @@ runSystems();
 document.addEventListener("keydown", keyPressed, false);
 
 //show grid for debugging positioning
-createDebugGrid();
+//createDebugGrid();
 
 var numLoops = 0;
 var fps = 30;
@@ -155,9 +158,13 @@ function gameLoop(timestamp) {
 
 }
 
-//start the game
+//render map background
 renderMap();
-renderTreats();
+
+//create pills in initial positions
+setUpTreats();
+
+//start game loop
 requestAnimationFrame(gameLoop);
 
 })();

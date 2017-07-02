@@ -18,4 +18,4 @@ PACMAN.comps.Position.prototype = {
   constructor: PACMAN.comps.Position,
   name: 'position'
 
-}
+};

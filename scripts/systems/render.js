@@ -6,7 +6,8 @@ PACMAN.systems.render = function systemsRender ( entities ){
 
   //clear the current main canvas
 
-  PACMAN.context.clearRect(0, 0, 420, 540);
+  PACMAN.context.clearRect(0, 0, PACMAN.map.width(), PACMAN.map.height());
+  PACMAN.scoreContext.clearRect(0,0,PACMAN.map.width(), 40);
 
   // get all entities with an appearance and position components
 
@@ -32,5 +33,15 @@ PACMAN.systems.render = function systemsRender ( entities ){
 
     }
   }
+
+  // draw score
+  PACMAN.scoreContext.font = "18px serif";
+  PACMAN.scoreContext.fillStyle = "rgba(" + currentEntity.components.appearance.colors.r
+                                     + ","
+                                     + currentEntity.components.appearance.colors.g
+                                     + ","
+                                     + currentEntity.components.appearance.colors.b
+                                     + ", 1)";
+  PACMAN.scoreContext.fillText("Score " + PACMAN.score, 20, 26);
 
 }

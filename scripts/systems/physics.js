@@ -6,10 +6,21 @@ changes direction of entity based on user input
 
 PACMAN.systems.physics = function systemsPhysics(entities){
 
+  //var handlePillCollision = function(x, y){
+  //  var pillTile = PACMAN.map.getLogicTileAtPosition(x, y);
+
+  //  if (pillTile == 1){
+
+      //PACMAN.map.updateLogicTile(x, y, 0);
+      // remove pill entity
+      // increase score
+  //  }
+
+  //};
 
   var IsOutsideCanvas = function(entity, newx, newy){
 
-    if(newx < 0 || newx > 400 || newy < 0 || newy > 400){
+    if(newx < 0 || newx > PACMAN.map.width() || newy < 0 || newy > PACMAN.map.height()){
 
       return true;
 
@@ -28,10 +39,18 @@ PACMAN.systems.physics = function systemsPhysics(entities){
     var newx = entity.components.position.x + directionx * PACMAN.map.tileSize;
     var newy = entity.components.position.y + directiony * PACMAN.map.tileSize;
 
+    if (!IsOutsideCanvas(entity, newx, newy)){
+
       // get tile at position
       var tile = PACMAN.map.getTileAtPosition(newx, newy);
 
       return (tile == 0);
+
+    } else {
+
+      return false;
+
+    }
 
   };
 
@@ -133,8 +152,10 @@ PACMAN.systems.physics = function systemsPhysics(entities){
 
         // use lookup to translate userinput into requested direction
         if (userInput !== 0){
+
           entityDirectionx = getVelocityFromInput(currentEntity, userInput)[0];
           entityDirectiony = getVelocityFromInput(currentEntity, userInput)[1];
+
         }
 
         if (canMoveInDirection(currentEntity, entityDirectionx, entityDirectiony)){
@@ -144,6 +165,7 @@ PACMAN.systems.physics = function systemsPhysics(entities){
           // changed direction so we must update the velocity
           currentEntity.components.velocity.x = entityDirectionx;
           currentEntity.components.velocity.y = entityDirectiony;
+
         }
 
       }
@@ -151,6 +173,36 @@ PACMAN.systems.physics = function systemsPhysics(entities){
       // check if can continue in current direction
       if (!hasTarget(currentEntity) && canMoveInDirection(currentEntity, currentEntity.components.velocity.x, currentEntity.components.velocity.y)){
 
+        setNewTarget(currentEntity, currentEntity.components.velocity.x, currentEntity.components.velocity.y);
+
+      } else if(!hasTarget(currentEntity) && IsOutsideCanvas(currentEntity,currentEntity.components.position.x + currentEntity.components.velocity.x * PACMAN.map.tileSize, currentEntity.components.position.y + currentEntity.components.velocity.y * PACMAN.map.tileSize)){
+
+        var newx = currentEntity.components.position.x + currentEntity.components.velocity.x * PACMAN.map.tileSize;
+        var newy = currentEntity.components.position.y + currentEntity.components.velocity.y * PACMAN.map.tileSize;
+
+        //set new position
+        if (newx < 0){
+
+          currentEntity.components.position.x = PACMAN.map.width() + PACMAN.map.tileSize + newx;
+
+        } else if(newx > PACMAN.map.width()){
+
+          currentEntity.components.position.x = newx - PACMAN.map.width() - PACMAN.map.tileSize;
+
+        }
+
+        if (newy < 0){
+
+          currentEntity.components.position.y = newy + PACMAN.map.height() + PACMAN.map.tileSize;
+
+        } else if (newy > PACMAN.map.height()){
+
+          currentEntity.components.position.y = newy - PACMAN.map.height() - PACMAN.map.tileSize;
+
+        }
+
+
+        //set target
         setNewTarget(currentEntity, currentEntity.components.velocity.x, currentEntity.components.velocity.y);
 
       }
@@ -162,6 +214,9 @@ PACMAN.systems.physics = function systemsPhysics(entities){
             //have reached the target point
             currentEntity.components.velocity.targetx = 0;
             currentEntity.components.velocity.targety = 0;
+
+            // check if corresponding tile has a collectible
+            //handlePillCollision(currentEntity.components.position.x, currentEntity.components.position.y);
 
           };
 
